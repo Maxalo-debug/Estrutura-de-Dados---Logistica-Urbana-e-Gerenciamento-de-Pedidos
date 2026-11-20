@@ -1,5 +1,5 @@
 #pragma once
-#include "library.h"
+#include "listaPrioridade.h"
 
 float getInputFloat(char* prompt);
 int getInput(char* prompt);

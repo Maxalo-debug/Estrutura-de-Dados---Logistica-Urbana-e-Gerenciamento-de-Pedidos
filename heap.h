@@ -28,17 +28,17 @@ typedef struct {
 int inicializar_heap(Heap* heap, int capacidade);
 
 
-
-
 /*
 * Função: liberar_heap
 * Complexidade Temporal: O(1) pior caso
 * Descrição: Libera a memoria alocada dinamicamente
 * para o vetor de pedidos do Heap, evitando
 * vazamentos de memoria.
+* retorna: 1 se deu algo errado e 0 se deu certo.
 */
   
-void liberar_heap(Heap* heap);/*
+int liberar_heap(Heap** heap);
+/*
 * Função: inserir_pedido
 * Complexidade Temporal: O(log n) pior caso
 * Descrição: Insere um novo pedido no Heap, reorganizando
@@ -55,7 +55,6 @@ void inserir_pedido(Heap* heap, PedidoEntrega pedido);
 * Retorna um ponteiro para o pedido ou NULL caso o Heap esteja vazio.
 */
 PedidoEntrega* consultar_pedido(Heap* heap);
-
 
 /*
 * Função: remover_pedido
