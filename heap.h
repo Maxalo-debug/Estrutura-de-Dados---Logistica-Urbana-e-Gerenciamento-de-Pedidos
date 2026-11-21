@@ -1,6 +1,8 @@
 #ifndef HEAP_H
 #define HEAP_H
 
+#include <stdbool.h>
+
 #include "entidades.h"
 #include "historico.h"
 
@@ -65,7 +67,7 @@ PedidoEntrega* consultar_pedido(Heap* heap);
 */
 
 
-PedidoEntrega* remover_pedido(Heap* heap);
+bool remover_pedido(Heap* heap, PedidoEntrega* p);
 
 
 /*
@@ -85,6 +87,7 @@ void exibir_pedidos(Heap* heap);
 * do histórico de operações.
 */
 
+void printar_pedido(PedidoEntrega pedido);
 
 
 #endif
