@@ -1,15 +1,14 @@
 # include <stdio.h>
 #include <stdlib.h>
 #include  "auxiliares.h"
-
 #include <stdbool.h>
 #include <string.h>
-
-#include  "listaPrioridade.h"
+#include  "heap.h"
 //
 // Created by matheus on 11/20/26.
 //
-void menu(){
+void menu(Heap** heap){
+
     PedidoEntrega* lista = malloc(sizeof(PedidoEntrega));
     if(!lista) exit(1);
     char answer[50] = "";
@@ -33,20 +32,23 @@ PedidoEntrega* getPedido(){
     pedido->prioridade = getInput("Digite a prioridade");
     printf("Ordem de chegada:");
     unsigned long ordemChegada = 0;
-    scanf("%u", &ordemChegada);
+    scanf("%lu", &ordemChegada);
     getchar();
-    pedido->cod_rastreio = ordemChegada;
+    pedido->ordem_chegada = ordemChegada;
     pedido->peso = getInputFloat("Digite peso:");
     pedido->id_destino = getInput("Digite id de destino:");
+    pedido->valor = getInputFloat("Digite valor:");
 
     return pedido;
 }
 
 int getInput(char* prompt){
     int valor = 0;
-    printf("%s", prompt);
-    scanf("%d", &valor);
-    getchar();
+    do {
+        printf("%s", prompt);
+        scanf("%d", &valor);
+        getchar();
+    }while (valor < 1 || valor > 3);
 
     return valor;
 }
@@ -56,14 +58,15 @@ float getInputFloat(char* prompt){
     printf("%s", prompt);
     scanf("%f", &valor);
     getchar();
+
     return valor;
 }
 
 void mostrar_pedido(PedidoEntrega* p){
     printf("Codigo de rastreio - %-10d\n", p->cod_rastreio);
-    printf("Prioridade - %-10d\n", p->cod_rastreio);
-    printf("Ordem de chamada - %-10u\n", p->cod_rastreio);
-    printf("Peso - %-10f\n", p->cod_rastreio);
-    printf("Id de destino - %-10d\n", p->cod_rastreio);
+    printf("Prioridade - %-10d\n", p->prioridade);
+    printf("Ordem de chamada - %-10lu\n", p->ordem_chegada);
+    printf("Peso - %-10f\n", p->peso);
+    printf("Id de destino - %-10d\n", p->id_destino);
     printf("Valor - %-10f\n", p->valor);
 }
