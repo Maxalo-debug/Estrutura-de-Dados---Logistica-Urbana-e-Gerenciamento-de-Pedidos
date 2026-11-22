@@ -39,14 +39,16 @@ void inserir_pedido(Heap* heap, PedidoEntrega pedido) {
 int inicializar_heap(Heap* heap, int capacidade){
     heap->capacidade = capacidade;
     heap->dados = malloc(sizeof(PedidoEntrega));
+    if (heap->dados == NULL) {
+        return 1;
+    }
     heap->tamanho = 0;
-
+    return 0;
 }
 
 int liberar_heap(Heap** heap){
     if(*heap == NULL || heap == NULL) return 1;
-    free((*heap)->dados);
-    free(heap);
+    free(*heap);
 
     *heap = NULL;
     return 0;
@@ -58,10 +60,9 @@ PedidoEntrega* consultar_pedido(Heap* heap){
     return &heap->dados[0];;
 
 }
-PedidoEntrega* remover_pedido(Heap* heap){
-    if (heap->tamanho == 0) return NULL;
-
-    PedidoEntrega pedido = heap->dados[0];
+bool remover_pedido(Heap* heap, PedidoEntrega* p){
+    if (heap->tamanho == 0) return 1;
+    *p = heap->dados[0];
     heap->dados[0] = heap->dados[heap->tamanho - 1];
     heap->tamanho--;
     int i = 0;
@@ -72,7 +73,7 @@ PedidoEntrega* remover_pedido(Heap* heap){
         int maior = i;
 
         if (esq < heap->tamanho && heap->dados[esq].prioridade > heap->dados[maior].prioridade) {
-            maior = esq;
+                maior = esq;
         }
 
         if (dir < heap->tamanho && heap->dados[dir].prioridade > heap->dados[maior].prioridade ) {
@@ -86,12 +87,23 @@ PedidoEntrega* remover_pedido(Heap* heap){
         heap->dados[maior] = heap->dados[i];
         heap->dados[i] = temp;
     }
-
-
-
-    return &pedido;
+    return 0;
 }
 
 void exibir_pedidos(Heap* heap){
+    printf("====================================\n");
+    printf("         PEDIDOS PENDENTES\n");
+    printf("====================================\n");
 
+    for(int i = 0; i < heap->tamanho; i++) {
+        printar_pedido(heap->dados[i]);
+    }
+
+}
+
+void printar_pedido(PedidoEntrega pedido) {
+    printf("[Codigo de rasntreio:%d, Prioridade:%d, "
+           "Ordem de chegada:%lu, Peso:%f, Id de Destino:%d, "
+           "Valor:%f]\n", pedido.cod_rastreio, pedido.prioridade, pedido.ordem_chegada,
+           pedido.peso, pedido.id_destino, pedido.valor);
 }
